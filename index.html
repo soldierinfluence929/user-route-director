@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting...</title>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: sans-serif; background-color: #f0f0f0; text-align: center; padding-top: 5em; }
+    a { color: #007bff; }
+  </style>
+</head>
+<body>
+  <p>Redirecting you to your document...</p>
+  <p id="fallback-link" style="display: none;">
+    If you are not redirected automatically, <a href="#">click here</a>.
+  </p>
+
+  <script type="text/javascript">
+    // This is the most robust version of the redirector script.
+    try {
+      // Use URLSearchParams to reliably find the 'dest' parameter by name.
+      var params = new URLSearchParams(window.location.search);
+      var destination = params.get('dest'); // Get the value of the 'dest' parameter
+
+      if (destination) {
+        window.location.replace(destination);
+        var fallbackElement = document.getElementById('fallback-link');
+        var fallbackAnchor = fallbackElement.querySelector('a');
+        if (fallbackElement && fallbackAnchor) {
+          fallbackAnchor.href = destination;
+          fallbackElement.style.display = 'block';
+        }
+      } else {
+        document.body.innerHTML = '<p>Error: No destination URL was provided.</p>';
+      }
+    } catch (e) {
+      console.error("Redirection script failed:", e);
+      document.body.innerHTML = '<p>An error occurred during redirection.</p>';
+    }
+  </script>
+</body>
+</html>
